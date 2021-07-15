@@ -1,7 +1,15 @@
 #include "./Cordic.h"
 
-//void cordic(long int* x, long int* y, long int* z, long int* angles, int prec) 
-void cordic(int* x, int* y, int* z, int* angles, int prec) 
+int AngleTable[PRECISION] = {
+                                13176794, 7778716, 4110059, 2086330, 
+                                1047213, 524117, 262122, 131069, 
+                                65535, 32767, 16383, 8191, 
+                                4095, 2047, 1023, 511, 
+                                255, 127, 63, 31, 
+                                15, 7, 3, 1                       
+                            };
+                        
+void cordic(int* x, int* y, int* z) 
 {
     int x_temp_1, y_temp_1, z_temp;
     int x_temp_2, y_temp_2;
@@ -11,16 +19,16 @@ void cordic(int* x, int* y, int* z, int* angles, int prec)
     y_temp_1 = *y;
     z_temp = *z;
 
-    for( i=0; i<prec; i++) {
+    for( i=0; i < PRECISION; i++) {
         if( y_temp_1 >= 0) {
             x_temp_2 = x_temp_1 + (y_temp_1 >> i);
             y_temp_2 = y_temp_1 - (x_temp_1 >> i);
-            z_temp += angles[i];
+            z_temp += AngleTable[i];
         }
         else {
             x_temp_2 = x_temp_1 - (y_temp_1 >> i);
             y_temp_2 = y_temp_1 + (x_temp_1 >> i);
-            z_temp -= angles[i];
+            z_temp -= AngleTable[i];
         }
             
         x_temp_1 = x_temp_2;
