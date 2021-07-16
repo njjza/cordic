@@ -36,5 +36,5 @@ school-arm-cordic.o:
 
 school-arm-main.o:
 	$(SCH_ARMCC) $(CFLAGS) -c ./src/main.c -o ./bin/arm-main.o
-school-arm_main: arm-cordic.o arm-main.o
+school-arm-main: school-arm-cordic.o school-arm-main.o
 	$(SCH_ARMCC) -pg --specs=rdimon.specs -O3 ./bin/arm-main.o ./bin/arm-cordic.o -o $(arm-main.exe)
