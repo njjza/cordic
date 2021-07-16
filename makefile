@@ -2,6 +2,8 @@ default: main
 
 CC = gcc
 ARMCC = arm-none-eabi-gcc
+SCH_ARMCC = arm-linux-gcc
+
 CFLAGS = -Wall -O3
 CORDIC_DIR = ./include/libs/Cordic/
 main.exe = ./build/main.exe
@@ -28,3 +30,11 @@ arm-main.o:
 	$(ARMCC) $(CFLAGS) -c ./src/main.c -o ./bin/arm-main.o
 arm_main: arm-cordic.o arm-main.o
 	$(ARMCC) -pg --specs=rdimon.specs -O3 ./bin/arm-main.o ./bin/arm-cordic.o -o $(arm-main.exe)
+
+school-arm-cordic.o:
+	$(SCH_ARMCC) $(CFLAGS) -c $(CORDIC_DIR)Cordic.c -o ./bin/arm-cordic.o
+
+school-arm-main.o:
+	$(SCH_ARMCC) $(CFLAGS) -c ./src/main.c -o ./bin/arm-main.o
+school-arm_main: arm-cordic.o arm-main.o
+	$(SCH_ARMCC) -pg --specs=rdimon.specs -O3 ./bin/arm-main.o ./bin/arm-cordic.o -o $(arm-main.exe)
