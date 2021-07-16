@@ -1,5 +1,4 @@
 #include "./Cordic.h"
-
 int AngleTable[PRECISION] = {
                                 13176794, 7778716, 4110059, 2086330, 
                                 1047213, 524117, 262122, 131069, 
@@ -8,8 +7,24 @@ int AngleTable[PRECISION] = {
                                 255, 127, 63, 31, 
                                 15, 7, 3, 1                       
                             };
-                        
-void cordic(int* x, int* y, int* z) 
+
+void cordic_kernel(int* x, int* y, int* z);
+
+void cordic(struct Vector * v)
+{
+    int x_i, y_i, z_i;
+    x_i = (int) (v -> x * (1 << PRECISION));
+    y_i = (int) (v -> y * (1 << PRECISION));
+    z_i = (int) v -> z;
+
+    cordic_vector(&x_i, &y_i, &z_i);
+
+    v -> x = (double) (x_i >> EXTENTION) / (1 << DESIRED_PRECISION);
+    v -> y = (double) (y_i >> EXTENTION) / (1 << DESIRED_PRECISION);
+    v -> z = (double) (z_i >> EXTENTION) / (1 << DESIRED_PRECISION);
+}
+
+void cordic_kernel(int* x, int* y, int* z) 
 {
     int x_temp_1, y_temp_1, z_temp;
     int x_temp_2, y_temp_2;

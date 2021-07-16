@@ -1,26 +1,28 @@
 #include <stdio.h>
 #include "../include/libs/Cordic/Cordic.h"
 
+void print_integer(int x, int y, int z);
+void print_float(double x, double y, double z);
+
 int main (void)
 {
-    int x_i, y_i, z_i;
-    double x = 0.85, y = 0.76, z; 
-    
-    x_i = (int)(x * (1 << PRECISION));
-    y_i = (int)(y * (1 << PRECISION));
-    z_i = 0;
+    double x = 0.85, y = 0.76;
+    int z;
+    struct Vector v;
 
-    cordic(&x_i, &y_i, &z_i);
+    v.x = x;
+    v.y = y;
+    v.z = z^z;
 
-    x_i = x_i >> EXTENTION;
-    y_i = y_i >> EXTENTION;
-    z_i = z_i >> EXTENTION;
+    cordic(&v);
 
-    x = (double) x_i / (1 << DESIRED_PRECISION);
-    y = (double) y_i / (1 << DESIRED_PRECISION);
-    z = (double) z_i / (1 << DESIRED_PRECISION);
+    print_float(v.x, v.y, v.z);
+}
 
-    printf("The x result equals = %i\n", x_i);
-    printf("The y result equals = %i\n", y_i);
-    printf("The z result equals = %i\n", z_i);
+void print_float(double x, double y, double z)
+{
+    printf("Printout Double Results\n");
+    printf("\tThe x result equals = %f\n", x);
+    printf("\tThe y result equals = %f\n", y);
+    printf("\tThe z result equals = %f\n", z);
 }
