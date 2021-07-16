@@ -5,9 +5,7 @@
 #define EXTENTION 7
 #define PRECISION (DESIRED_PRECISION + EXTENTION)
 
-extern int AngleTable[PRECISION];
 struct Vector {double x; double y; double z;};
-
 void cordic(struct Vector * v);
 
 #endif
