@@ -17,11 +17,21 @@ void cordic(struct Vector * v)
     y_i = (int) (v -> y * (1 << PRECISION));
     z_i = (int) v -> z;
 
-    cordic_vector(&x_i, &y_i, &z_i);
+    cordic_kernel(&x_i, &y_i, &z_i);
 
+    x_i >>= EXTENTION;
+    y_i >>= EXTENTION;
+    z_i >>= EXTENTION;
+    
+    v -> x = (double) x_i;
+    v -> y = (double) y_i;
+    v -> z = (double) z_i;
+
+    /*
     v -> x = (double) (x_i >> EXTENTION) / (1 << DESIRED_PRECISION);
     v -> y = (double) (y_i >> EXTENTION) / (1 << DESIRED_PRECISION);
     v -> z = (double) (z_i >> EXTENTION) / (1 << DESIRED_PRECISION);
+    */
 }
 
 void cordic_kernel(int* x, int* y, int* z) 

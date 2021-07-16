@@ -1,22 +1,32 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "../include/libs/Cordic/Cordic.h"
 
 void print_integer(int x, int y, int z);
 void print_float(double x, double y, double z);
 
-int main (void)
+int main (int argc, char** argv)
 {
-    double x = 0.85, y = 0.76;
-    int z;
+    if (argc != 4) {
+        return 0;
+    }
+
+    double  x = atof(argv[1]);
+    double  y = atof(argv[2]);
+    int     z = atoi(argv[3]);
+
+    print_float(x, y, (double) z);
+
     struct Vector v;
 
     v.x = x;
     v.y = y;
-    v.z = z^z;
+    v.z = z;
 
     cordic(&v);
-
     print_float(v.x, v.y, v.z);
+
+    return 0;
 }
 
 void print_float(double x, double y, double z)
