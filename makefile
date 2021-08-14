@@ -1,4 +1,4 @@
-default: main
+default: main_debug
 
 CC = gcc
 SCH_ARMCC = arm-linux-gcc
@@ -15,7 +15,14 @@ cordic.o:
 main.o: $(CORDIC_DIR)Cordic.h
 	$(CC) $(CFLAGS) -c ./src/main.c -o ./bin/main.o
 
+main.o_debug: $(CORDIC_DIR)Cordic.h
+	$(CC) $(CFLAGS) -DDEBUG -c ./src/main.c -o ./bin/main.o
+
 main: cordic.o main.o
+	$(CC) $(CFLAGS) ./bin/main.o ./bin/cordic.o -o $(main.exe)
+	$(main.exe) 0.85, 0.76, 0
+
+main_debug: cordic.o main.o_debug
 	$(CC) $(CFLAGS) ./bin/main.o ./bin/cordic.o -o $(main.exe)
 	$(main.exe) 0.85, 0.76, 0
 

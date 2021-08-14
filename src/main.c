@@ -15,8 +15,9 @@ int main (int argc, char** argv)
     double  y = atof(argv[2]);
     int     z = atoi(argv[3]);
 
+    #ifdef DEBUG
     print_float(x, y, (double) z);
-
+    #endif
     struct Vector v;
 
     v.x = x;
@@ -24,7 +25,10 @@ int main (int argc, char** argv)
     v.z = z;
 
     cordic(&v);
+    
+    #ifdef DEBUG
     print_float(v.x, v.y, v.z);
+    #endif
 
     return 0;
 }
