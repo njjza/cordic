@@ -18,9 +18,9 @@ int main(void)
     printf( "z_d = %f\t\t\tz_i = %i\n", z_d, z_i);
     printf("%f", (float) z_i / (1 << 17));
     printf( "\n");printf( "The angle table:\n");
-    for (int i=0; i<24; i++) 
+    for (int i=0; i<22; i++) 
     {
-        printf( "%i, ", (int)(atan( pow( 2.0, (float)(-i))) * (1 << 24)));
+        printf( "%i, ", (int)(atan( pow( 2.0, (float)(-i))) * (1 << 22)));
     }
     printf("\n");
 }
