@@ -27,18 +27,18 @@ void cordic(struct Vector * v)
 
 void cordic_kernel(int* x, int* y, int* z) 
 {
-    int x_temp_1, y_temp_1, z_temp, temp;
-    int x_temp_2, y_temp_2;
-    int i, mul;
+    register int x_temp_1, y_temp_1, z_temp, x_temp_2, y_temp_2;
+    register int temp, i;
+    int mul;
 
-    x_temp_1 = *x;
-    y_temp_1 = *y;
-    z_temp = *z;
+    x_temp_1 = (int) *x;
+    y_temp_1 = (int) *y;
+    z_temp   = (int) *z;
 
     #ifndef CORDIC_KERNEL
     #define CORDIC_KERNEL(z, x, c, y, i) (z = x + c * (y >> i))
 
-    for( i=0; i < PRECISION; i+=2) {
+    for( i ^= i; i < PRECISION; i+=2) {
         temp = AngleTable[i];
         mul = (y_temp_1 >= 0) ? 1 : -1;
         CORDIC_KERNEL(x_temp_2, x_temp_1, mul, y_temp_1, i);
