@@ -1,11 +1,8 @@
 #include "./Cordic.h"
 int AngleTable[PRECISION] = {
-                                13176794, 7778716, 4110059, 2086330, 
-                                1047213, 524117, 262122, 131069, 
-                                65535, 32767, 16383, 8191, 
-                                4095, 2047, 1023, 511, 
-                                255, 127, 63, 31, 
-                                15, 7, 3, 1                       
+                                3294198, 1944679, 1027514, 521582, 261803, 
+                                131029, 65530, 32767, 16383, 8191, 4095, 
+                                2047, 1023, 511, 255, 127, 63, 31, 15, 7, 3, 1
                             };
 
 void cordic_kernel(int* x, int* y, int* z);
@@ -23,14 +20,9 @@ void cordic(struct Vector * v)
     y_i >>= EXTENTION;
     z_i >>= EXTENTION;
 
-    /*
     v -> x = (double) x_i / (1 << DESIRED_PRECISION);
     v -> y = (double) y_i / (1 << DESIRED_PRECISION);
     v -> z = (double) z_i / (1 << DESIRED_PRECISION);
-    */
-    v -> x = (double) x_i;
-    v -> y = (double) y_i;
-    v -> z = (double) z_i;
 }
 
 void cordic_kernel(int* x, int* y, int* z) 
@@ -43,35 +35,23 @@ void cordic_kernel(int* x, int* y, int* z)
     y_temp_1 = *y;
     z_temp = *z;
 
-    temp = AngleTable[0];
     #ifndef CORDIC_KERNEL
     #define CORDIC_KERNEL(z, x, c, y, i) (z = x + c * (y >> i))
-    for( i=0; i < PRECISION; i+=4) {
+
+    for( i=0; i < PRECISION; i+=2) {
+        temp = AngleTable[i];
         mul = (y_temp_1 >= 0) ? 1 : -1;
         CORDIC_KERNEL(x_temp_2, x_temp_1, mul, y_temp_1, i);
         CORDIC_KERNEL(y_temp_2, y_temp_1, (~mul + 1), x_temp_1, i);
         z_temp += mul * temp;
-
         temp = AngleTable[i + 1];
+
         mul = (y_temp_2 >= 0) ? 1 : -1;
         CORDIC_KERNEL(x_temp_1, x_temp_2, mul, y_temp_2, (i+1));
         CORDIC_KERNEL(y_temp_1, y_temp_2, (~mul + 1), x_temp_2, (i+1));
         z_temp += mul * temp;
-
-        temp = AngleTable[i + 2];
-        mul = (y_temp_1 >= 0) ? 1 : -1;
-        CORDIC_KERNEL(x_temp_2, x_temp_1, mul, y_temp_1, (i+2));
-        CORDIC_KERNEL(y_temp_2, y_temp_1, (~mul + 1), x_temp_1, (i+2));
-        z_temp += mul * temp;
-
-        temp = AngleTable[i + 3];
-        mul = (y_temp_2 >= 0) ? 1 : -1;
-        CORDIC_KERNEL(x_temp_1, x_temp_2, mul, y_temp_2, (i+3));
-        CORDIC_KERNEL(y_temp_1, y_temp_2, (~mul + 1), x_temp_2, (i+3));
-        z_temp += mul * temp;
-
-        temp = AngleTable[i + 4];
     }
+
     #undef CORDIC_KERNEL
     #endif
 
