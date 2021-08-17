@@ -14,17 +14,23 @@ int main (int argc, char** argv)
     double  x = atof(argv[1]);
     double  y = atof(argv[2]);
     int     z = atoi(argv[3]);
+    int  mode = 1;
 
     #ifdef DEBUG
     print_float(x, y, (double) z);
     #endif
-    struct Vector v;
+
+    #ifdef ROTATE
+    mode = 0;
+    #endif
+
+    struct Vector_d v;
 
     v.x = x;
     v.y = y;
     v.z = z;
 
-    cordic(&v);
+    cordic(&v, mode);
     
     #ifdef DEBUG
     print_float(v.x, v.y, v.z);

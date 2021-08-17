@@ -5,7 +5,7 @@
 #define EXTENTION 5
 #define PRECISION (DESIRED_PRECISION + EXTENTION)
 
-struct Vector {double x; double y; double z;};
-void cordic(struct Vector * v);
+struct Vector_d {double x; double y; double z;};
+void cordic(struct Vector_d * v, int mode);
 
 #endif
