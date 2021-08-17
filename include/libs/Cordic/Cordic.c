@@ -18,9 +18,9 @@ void cordic(struct Vector_d * v, int mode)
     #define CORDIC_KERNEL(z, x, c, y, i) (z = x + c * (y >> i))
     #endif
 
-    int32_t x_i, y_i, z_i, x_temp_2, y_temp_2;
-    int32x2_t x_cal, y_cal, res;
-    struct Vector_int32x2_t x, y;
+    register int32_t x_i, y_i, z_i, x_temp_2, y_temp_2;
+    //int32x2_t x_cal, y_cal, res;
+    //struct Vector_int32x2_t x, y;
     register int temp, i;
     register int mul;
     double tmp;
@@ -30,6 +30,7 @@ void cordic(struct Vector_d * v, int mode)
     y_i = (int) (v -> y * (1 << PRECISION));
     z_i = (int) (v -> z * (1 << PRECISION));
     tmp = 1 / tmp;
+    /*
     x.a = x_i;
     x.b = ~x_i + 1;
     y.a = y_i;
@@ -38,6 +39,7 @@ void cordic(struct Vector_d * v, int mode)
     x_cal = vld1_s32(x.a);
     int32_t = 
     printf(x_cal)
+    */
     switch (mode) {
         case 1:
                 for( i ^= i; i < PRECISION; i+=2) {
