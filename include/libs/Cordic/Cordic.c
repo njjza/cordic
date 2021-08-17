@@ -61,8 +61,8 @@ void cordic(struct Vector_d * v, int mode)
         case 0:
             for( i ^= i; i < PRECISION; i+=2) {
                     temp = AngleTable[i];
-                    mul = 1 + (y_i >> 31) - (-y_i >> 31) - 1;
-                    //mul = (z_i < 0) ? 1 : -1;
+                    //mul = 1 + (y_i >> 31) - (-y_i >> 31) - 1;
+                    mul = (z_i < 0) ? 1 : -1;
                     CORDIC_KERNEL(x_temp_2, x_i, mul, y_i, i);
                     CORDIC_KERNEL(y_temp_2, y_i, (~mul + 1), x_i, i);
                     z_i += mul * temp;
